@@ -1,5 +1,5 @@
 import streamlit as st
-import numpy as np
+import pandas as pd
 import re
 
 st.title("NLP demo")
@@ -31,15 +31,49 @@ def sent_clean(sent_tokens):
     return sent_list
 
 # %%
-def BOW(sent_token):
+def BOW(list_of_sent):
     '''
-    
+    input is list of sentence
+    output is list of vectorized sentence
     '''
-    pass
+    idx = 0
+    sent_word_count = dict()
+    set_of_words = set()
+    for sent in list_of_sent:
+        sent_word_count[idx] = dict()
+        for word in sent.split():
+            set_of_words.add(word)
+            sent_word_count[idx][word] = sent_word_count[idx].get(word,0) + 1
+        idx += 1
+    print(sent_word_count)
 
+    list_of_words = sorted(list(set_of_words))
+    print(list_of_words)
+
+    Bag_of_words_mat = []
+    # Bag_of_words_mat.append(list_of_words)
+
+    for i in range(len(list_of_sent)):
+        sent_vec = []
+        for word in list_of_words:
+            sent_vec.append(sent_word_count[i].get(word,0))
+        Bag_of_words_mat.append(sent_vec)
+    
+    print(Bag_of_words_mat)
+    df = pd.DataFrame(Bag_of_words_mat,columns=list_of_words)
+    return df
+
+BOW([
+  "this pasta is very tasty",
+  "this pasta is good",
+  "this pasta is miserable",
+  "pasta is pasta"
+])
 #%%
 if st.button('Calculate'):
     sent_tokens =  sent_token(corpus) 
     list_of_sent = sent_clean(sent_tokens)
     st.write(list_of_sent)
     bow_array = BOW(list_of_sent)
+    st.title('Bag Of Words(BOW)',)
+    st.table(bow_array)
