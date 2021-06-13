@@ -2,8 +2,8 @@ import streamlit as st
 import pandas as pd
 import re
 
-st.title("NLP demo")
-st.write("Demo working of BOW and TFIDF")
+st.title("NLP demo for BOW")
+st.write("Demo working of BOW")
 
 corpus = st.text_input('paragraph','',help='Enter your paragraph here')
 list_of_sent = []
@@ -62,18 +62,11 @@ def BOW(list_of_sent):
     print(Bag_of_words_mat)
     df = pd.DataFrame(Bag_of_words_mat,columns=list_of_words)
     return df
-
-BOW([
-  "this pasta is very tasty",
-  "this pasta is good",
-  "this pasta is miserable",
-  "pasta is pasta"
-])
 #%%
 if st.button('Calculate'):
     sent_tokens =  sent_token(corpus) 
     list_of_sent = sent_clean(sent_tokens)
     st.write(list_of_sent)
     bow_array = BOW(list_of_sent)
-    st.title('Bag Of Words(BOW)',)
+    st.title('Bag Of Words(BOW)')
     st.table(bow_array)
