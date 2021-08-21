@@ -2,14 +2,6 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
-fig = plt.figure(figsize=(12,8))
-ax1 = fig.add_subplot(121)
-ax2 = fig.add_subplot(121)
-ax3 = fig.add_subplot(122)
-ax3.set_ylim(ymin=0, ymax=1000)
-ax3.set_xlim(xmin=0, xmax=100)
-
-
 def get_loss_gradient(x, y_actual, y_pred):
   """
   Take data point(or array), actual, and predicted output values as input.
@@ -69,6 +61,7 @@ def solve_linear_regression(x, y, eta=0.01, tolerance=1e-6, w_start=0, b_start=0
   return metadata.T, w, b
 
 def plot_line_wb(weight, bias, x_vals, epoch, loss, color='b'):
+  # global fig, ax1, ax2, ax3
   """Plot a line from weight and bias"""
   # axes = plt.gca()
   # x_vals = np.array(ax1.get_xlim())
@@ -87,7 +80,7 @@ def plot_line_wb(weight, bias, x_vals, epoch, loss, color='b'):
 
   ########### ax3 drawing ################
   ax3.plot(epoch,loss,'-ro')
-  ax3.set_title(loss)
+  ax3.set_title(f'loss: {round(loss,5)}')
 
   ########## Figure drawing ##############
   fig.canvas.draw()
@@ -95,8 +88,6 @@ def plot_line_wb(weight, bias, x_vals, epoch, loss, color='b'):
   plt.pause(0.00001)
   line.remove()
   text.remove()
-
-
 
 def simulate_linreg(x,y,metadata_lmc):
   loss, weights_array, bias_array = metadata_lmc.T
@@ -108,6 +99,15 @@ def simulate_linreg(x,y,metadata_lmc):
   for w,b in zip(weights_array,bias_array):
     plot_line_wb(w[0],b, x_vals, next(epochs), next(loss_iter))
     time.sleep(0.01)
+
+def get_figure():
+  global fig, ax1, ax2, ax3
+  fig = plt.figure(figsize=(12,8))
+  ax1 = fig.add_subplot(121)
+  ax2 = fig.add_subplot(121)
+  ax3 = fig.add_subplot(122)
+  ax3.set_ylim(ymin=0, ymax=1000)
+  ax3.set_xlim(xmin=0, xmax=100)
 
 if __name__=='__main__':
   # x = np.array([[1, 2],
@@ -126,8 +126,9 @@ if __name__=='__main__':
   metadata_lmc, slope, intercept = solve_linear_regression(x, y, w_start=0, b_start=-2, eta=1e-3 ,tolerance=1e-2)
   
   print(f'slope = {slope} \nintercept={intercept}')
+  
   if x.shape[1] == 1:
+    get_figure()
     print(f'total iterations = {metadata_lmc.shape[0]}')
     simulate_linreg(x,y,metadata_lmc)
-  
-  input('Enjoyed the show?')
+    input('Enjoyed the show?')
