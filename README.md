@@ -17,7 +17,7 @@ Streamlit app demo
 - Jupyter notebook: [linear_regression.ipynb](https://github.com/mayurkagathara/streamlit_apps/blob/main/Linear_regression/notebooks/linear_regression.ipynb)
 - Simulation video: [Linear regression simulation](https://www.youtube.com/watch?v=ZspsWFZH8WM)
 
-![Linear regression simulation](static/Linear_Reg.gif)
+[![Linear regression simulation](static/Linear_Reg.gif)](https://www.youtube.com/watch?v=ZspsWFZH8WM)
 
 ### Logistic Regression
 
@@ -25,4 +25,4 @@ Streamlit app demo
 - Jupyter notebook: [logistic_regression.ipynb](https://github.com/mayurkagathara/streamlit_apps/blob/main/Logistic_regression/notebooks/logistic_regression.ipynb)
 - simulation video: [Logistic regression simulation](https://www.youtube.com/watch?v=BUFwhKylyj4)
 
-![Logistic regression simulation](static/Logistic_reg.gif)
+[![Logistic regression simulation](static/Logistic_reg.gif)](https://www.youtube.com/watch?v=BUFwhKylyj4)
