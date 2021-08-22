@@ -5,6 +5,12 @@
 This folder is planned to keep all the streamlit projects.  
 Currently, simulation is available in standalone python file.  
 
+### Bag of Words
+
+Streamlit app demo
+
+- simulation video: [bag_of_words](https://www.youtube.com/watch?v=iFycxsredRY)
+
 ### Linear Regression
 
 - Python file simulation: [linear_regression.py](https://github.com/mayurkagathara/streamlit_apps/blob/main/Linear_regression/linear_regression.py)  
@@ -20,9 +26,3 @@ Currently, simulation is available in standalone python file.
 - simulation video: [Logistic regression simulation](https://www.youtube.com/watch?v=BUFwhKylyj4)
 
 ![Logistic regression simulation](static/Logistic_reg.gif)
-  
-### Bag of Words
-
-Streamlit app demo
-
-- simulation video: [bag_of_words](https://www.youtube.com/watch?v=iFycxsredRY)
