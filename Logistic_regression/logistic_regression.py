@@ -89,12 +89,12 @@ def plot_line_wb(weight, bias, x_vals, epoch, loss, color='b'):
   ########## Figure drawing ##############
   fig.canvas.draw()
   fig.canvas.flush_events()
-  plt.pause(0.00001)
+  plt.pause(0.00000001)
   line.remove()
   text.remove()
 
 def simulate_linreg(x,y,metadata_lmc):
-  loss = metadata_lmc[:,0]
+  loss = list(metadata_lmc[:,0])
   weight_array = list(map(lambda x: -x[0]/x[1], metadata_lmc[:,1]))
   bias_array = list(map(lambda x: -x[1]/x[0][1], metadata_lmc[:,1:]))
   epochs = iter(list(range(len(loss))))
@@ -106,8 +106,8 @@ def simulate_linreg(x,y,metadata_lmc):
   x_vals = np.array(ax1.get_xlim())
   # print(ax1.get_xlim())
   for w,b in zip(weight_array,bias_array):
-    plot_line_wb(w[0],b, x_vals, next(epochs), next(loss_iter))
-    time.sleep(0.01)
+    plot_line_wb(w,b, x_vals, next(epochs), next(loss_iter))
+    # time.sleep(0.0001)
 
 def get_figure():
   global fig, ax1, ax2, ax3
@@ -115,8 +115,8 @@ def get_figure():
   ax1 = fig.add_subplot(121)
   ax2 = fig.add_subplot(121)
   ax3 = fig.add_subplot(122)
-  ax3.set_ylim(ymin=0, ymax=2)
-  ax3.set_xlim(xmin=0, xmax=100)
+  ax3.set_ylim(ymin=0, ymax=5)
+  ax3.set_xlim(xmin=0, xmax=300)
 
 if __name__=='__main__':
   x = np.array([[1, 12], [1.5, 11],
@@ -132,7 +132,7 @@ if __name__=='__main__':
   print(x.shape, y.shape)
   assert x.shape[0]==y.shape[0]
 
-  metadata_lmc, coef_, intercept_ = solve_logistic_regression(x, y, w_start=0, b_start=-2, eta=1e-3 ,tolerance=1e-6)
+  metadata_lmc, coef_, intercept_ = solve_logistic_regression(x, y, w_start=2, b_start=-1, eta=1e-3 ,tolerance=1e-6)
   print(f'coef_ = {coef_} \nintercept={intercept_}')
   slope = -(coef_[0]/coef_[1])  # slope = -w1/w2
   intercept = -(intercept_/coef_[1]) # b = -w0/w2
@@ -140,11 +140,6 @@ if __name__=='__main__':
 
   if x.shape[1] == 2:
     get_figure()
-    x_vals = np.array(ax1.get_xlim())
-    y_vals = intercept + slope * x_vals
-    plt.plot(x_vals, y_vals,'--', color='r')
-    
     print(f'total iterations = {metadata_lmc.shape[0]}')
-    # simulate_linreg(x,y,metadata_lmc)
-
+    simulate_linreg(x,y,metadata_lmc)
     input('Enjoyed the show?')
