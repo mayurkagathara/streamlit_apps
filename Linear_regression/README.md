@@ -6,4 +6,4 @@
 
 ![Linear regression simulation](../static/Linear_Reg.gif)
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/ZspsWFZH8WM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![watch the video](https://img.youtube.com/vi/ZspsWFZH8WM/maxresdefault.jpg)](https://www.youtube.com/watch?v=ZspsWFZH8WM)
