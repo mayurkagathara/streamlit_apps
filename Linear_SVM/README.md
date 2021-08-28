@@ -5,7 +5,7 @@ We will be using the squared hinge loss and L2 regularization.
 
 ## Formulation
 
-- Objective Function (LOSS) L = $\LARGE \underset{w,b}{min} \;\; \frac{1}{n}\sum_{i=0}^{n} [max(0, 1-z)]^2 + \lambda ||w||^2 \\ \text{where } z = y_i(w^T \cdot x + b)$
+- Objective Function (LOSS) L = $`\LARGE \underset{w,b}{min} \;\; \frac{1}{n}\sum_{i=0}^{n} [max(0, 1-z)]^2 + \lambda ||w||^2 \\ \text{where } z = y_i(w^T \cdot x + b)`$
   
 - Derrivatives
   - w.r.t. w  
