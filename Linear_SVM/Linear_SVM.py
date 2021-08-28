@@ -2,31 +2,30 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import time
+from sklearn.datasets import make_classification
 
-def sigmoid(z):
-  sigmoid = 1 / (1 + np.exp(-z))
-  return sigmoid
-
-def get_loss_gradient(x, y_actual, y_pred, w, b, alpha):
+def get_loss_gradient(x, y_actual, y_pred, w, b, C):
   """
   calculate gradient with respect to w and intercept b.
   return loss, gradient value wrt w and b
   """
-  if y_actual.shape != y_pred.shape:
-    raise ValueError(f'y_actual{y_actual.shape} and y_pred{y_pred.shape} shape not matching')
+  Lw = -x*y_actual[:,None]
+  Lb = -y_actual
 
-  n = len(y_actual)
+  z = y_actual*y_pred
+  Lw[z >= 1] = 0
+  Lb[z >= 1] = 0
+  
+  dL_by_dw = w + C*np.sum(Lw, axis=0)
+  dL_by_db = b + C*np.sum(Lb, axis=0)
 
-  log_loss = (-1/n)*sum([ i*np.log10(j) + ( (1-i)*np.log10(1-j) ) for i,j in zip(y_actual, y_pred)])
-  l1_loss = sum([abs(weight) for weight in w])
-  total_loss = log_loss+(alpha*l1_loss)
-
-  dL_by_dw = (y_pred - y).dot(x) + (alpha/n)*( w / (np.abs(w)+1e-5) )
-  dL_by_db = np.sum(y_pred - y)
+  total_loss_2 = 1 - z
+  total_loss_2[z >= 1] = 0
+  total_loss = 0.5*(w.T.dot(w)) + C*np.sum(total_loss_2)
   
   return total_loss, dL_by_dw, dL_by_db
 
-def solve_logistic_regression(x, y, alpha=0.01, eta=0.01, tolerance=1e-3, w_start=0, b_start=0):
+def solve_linear_SVM(x, y, C=1, eta=0.01, epochs=10000, w_start=1, b_start=0):
   '''
   takes input x, output y and learning rate eta as input.
   gradient descent update is stopped when update is less than tolerance.
@@ -46,10 +45,9 @@ def solve_logistic_regression(x, y, alpha=0.01, eta=0.01, tolerance=1e-3, w_star
   continue_loop = True
   epoch = 0
 
-  while continue_loop:
-    y_pred = sigmoid( (x.dot(w.T)) + b )
-
-    L, dw, db = get_loss_gradient(x, y, y_pred, w, b, alpha)
+  for _ in range(epochs):
+    y_pred = w.dot(x.T) + b   #positive value for category 1 and negative for -1
+    L, dw, db = get_loss_gradient(x, y, y_pred, w, b, C)
 
     w = w - (eta*dw)
     b = b - (eta*db)
@@ -59,7 +57,7 @@ def solve_logistic_regression(x, y, alpha=0.01, eta=0.01, tolerance=1e-3, w_star
     errors.append(L)
 
     epoch += 1
-    continue_loop = (errors[epoch-1] - errors[epoch]) > tolerance
+    # continue_loop = (errors[epoch-1] - errors[epoch]) > tolerance
 
   metadata = np.array([errors[1:], w_array[:-1], b_array[:-1]])
   return metadata.T, w, b
@@ -119,24 +117,29 @@ def get_figure():
   ax3.set_xlim(xmin=0, xmax=300)
 
 if __name__=='__main__':
-  x = np.array([[1, 12], [1.5, 11],
-                [2, 13], [2.5, 12],
-                [3, 15], [3.5, 14],
-                [4, 13], [4.5, 2],
-                [3, 6], [1.5, 14],
-                [4, 7], [2.5, 3.5],
-                [5, 9], [3.5, 6],
-                [6, 7], [4.5, 3]]) 
-  y = np.array([1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0])
+  # x = np.array([[1, 12], [1.5, 11],
+  #               [2, 13], [2.5, 12],
+  #               [3, 15], [3.5, 14],
+  #               [4, 13], [4.5, 2],
+  #               [3, 6], [1.5, 14],
+  #               [4, 7], [2.5, 3.5],
+  #               [5, 9], [3.5, 6],
+  #               [6, 7], [4.5, 3]]) 
+  # y = np.array([1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0])
 
+  x,y = make_classification(n_samples=40, n_features=2, n_informative=2, n_redundant=0, n_classes=2, n_clusters_per_class=2, class_sep=3, random_state=1995)
+  
   print(x.shape, y.shape)
   assert x.shape[0]==y.shape[0]
 
-  metadata_lmc, coef_, intercept_ = solve_logistic_regression(x, y, w_start=2, b_start=-1, eta=1e-3 ,tolerance=1e-6)
-  print(f'coef_ = {coef_} \nintercept={intercept_}')
+  metadata_lmc, coef_, intercept_ = solve_linear_SVM(x, y, C=0.1, w_start=1, b_start=0, eta=0.001 ,epochs=2000)
+  print(f'coef_ = {coef_} \nintercept_term={intercept_}')
   slope = -(coef_[0]/coef_[1])  # slope = -w1/w2
   intercept = -(intercept_/coef_[1]) # b = -w0/w2
   print(f'slope = {slope} \nintercept={intercept}')
+
+  print(x.shape, y.shape)
+  assert x.shape[0]==y.shape[0]
 
   if x.shape[1] == 2:
     get_figure()
