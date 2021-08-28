@@ -96,7 +96,7 @@ def plot_line_wb(weight, bias, margin, x_vals, epoch, loss, color='b'):
   line3.remove()
   text.remove()
 
-def simulate_linreg(x,y,metadata_lmc):
+def simulate_SVM(x,y,metadata_lmc):
   loss = list(metadata_lmc[:,0])
   weight_array = list(map(lambda x: -x[0]/x[1], metadata_lmc[:,1]))
   bias_array = list(map(lambda x: -x[1]/x[0][1], metadata_lmc[:,1:]))
@@ -156,5 +156,5 @@ if __name__=='__main__':
   if x.shape[1] == 2:
     get_figure()
     print(f'total iterations = {metadata_lmc.shape[0]}')
-    simulate_linreg(x,y,metadata_lmc)
+    simulate_SVM(x,y,metadata_lmc)
     input('Enjoyed the show?')
