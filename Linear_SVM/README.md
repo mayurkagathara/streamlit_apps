@@ -18,6 +18,6 @@ We will be using the squared hinge loss and L2 regularization.
   
 - Python file simulation: [Linear_SVM.py](https://github.com/mayurkagathara/streamlit_apps/blob/main/Linear_SVM/Linear_SVM.py)
 - Jupyter notebook: [linear_svm.ipynb](https://github.com/mayurkagathara/streamlit_apps/blob/main/Linear_SVM/notebooks/linear_svm.ipynb)
-<!-- - simulation video: [Logistic regression simulation](https://www.youtube.com/watch?v=BUFwhKylyj4) -->
+- simulation video: [Linear SVM simulation](https://www.youtube.com/watch?v=0OLhfoOXou8)
 
-<!-- [![Logistic regression simulation](../static/Logistic_reg.gif)](https://www.youtube.com/watch?v=BUFwhKylyj4) -->
+[![Linear SVM simulation](../static/SVM_simulation.gif)](https://www.youtube.com/watch?v=0OLhfoOXou8)
