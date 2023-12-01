@@ -1,5 +1,7 @@
 import streamlit as st
 import pandas as pd
+import csv
+#from io import StringIO
 
 # Define the path to the CSV file
 PATH_1 = "path/to/your/csv/file.csv"
@@ -7,6 +9,15 @@ PATH_1 = "path/to/your/csv/file.csv"
 @st.cache  # Cache the data loading
 def load_data():
     return pd.read_csv(PATH_1)
+
+@st.cache  # Cache the data loading
+def load_data():
+    with open(PATH_1, 'r') as csvfile:
+        csvreader = csv.reader(csvfile)
+        header = next(csvreader)  # Assuming the first row is the header
+        data = [row + [row[1].split(',', 1)[1]] if len(row) > 1 else row for row in csvreader]
+
+    return pd.DataFrame(data, columns=header)
 
 # Load data
 data = load_data()
