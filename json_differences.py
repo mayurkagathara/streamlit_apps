@@ -43,16 +43,17 @@ def compare_dicts(dict1, dict2, label1, label2, current_key=''):
             if isinstance(dict1[key], dict) and isinstance(dict2[key], dict):
                 result.extend(compare_dicts(dict1[key], dict2[key], label1, label2, current_key=new_key))
             elif dict1[key] != dict2[key]:
-                result.append((new_key, dict1[key], f'{label1} {key}', dict2[key], f'{label2} {key}'))
+                result.append((new_key, dict1[key], f'{label1}.{key}', dict2[key], f'{label2}.{key}'))
         elif key in dict1:
-            result.append((new_key, dict1[key], f'{label1} {key}', None, None))
+            result.append((new_key, dict1[key], f'{label1}.{key}', None, None))
         else:
-            result.append((new_key, None, None, dict2[key], f'{label2} {key}'))
+            result.append((new_key, None, None, dict2[key], f'{label2}.{key}'))
 
     return result
 
 def save_comparison_results(comparison_results):
     for file_name, result in comparison_results.items():
+        label1, label2 = result[0][2], result[0][4]  # Extract labels from the first result
         df = pd.DataFrame(result, columns=['Key', f'Value in {label1}', f'Value in {label2}'])
         output_file = f'{file_name}_comparison_result.xls'
         df.to_excel(output_file, index=False)
