@@ -59,6 +59,22 @@ def save_comparison_results(comparison_results):
         df.to_excel(output_file, index=False)
         print(f"Comparison result for {file_name} saved to {output_file}")
 
+# def save_comparison_results(comparison_results):
+#     for file_name, result in comparison_results.items():
+#         label1, label2 = result[0][2], result[0][4]  # Extract labels from the first result
+#         output_file = f'{file_name}_comparison_result.csv'
+
+#         with open(output_file, 'w', newline='') as csv_file:
+#             csv_writer = csv.writer(csv_file)
+#             csv_writer.writerow(['Key', f'Value in {label1}', f'Value in {label2}'])
+
+#             for row in result:
+#                 csv_writer.writerow([row[0], row[1], row[3]])
+
+#         print(f"Comparison result for {file_name} saved to {output_file}")
+
+
+
 # Example usage
 dev_folder = 'path/to/dev'
 test_folder = 'path/to/test'
